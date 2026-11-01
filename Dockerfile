@@ -9,7 +9,7 @@ RUN pip install uv
 COPY pyproject.toml ./
 RUN uv sync --no-dev
 
-COPY . .
+COPY backend .
 
 EXPOSE 3000
 

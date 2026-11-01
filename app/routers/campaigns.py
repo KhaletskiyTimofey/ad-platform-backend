@@ -34,8 +34,8 @@ def _to_out(c: Campaign) -> CampaignOut:
 @router.get("", response_model=list[CampaignOut])
 async def list_campaigns(
     status_filter: str | None = None,
-    db: AsyncSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+    user: User = Depends(get_current_user),  # noqa: B008
 ):
     stmt = select(Campaign).order_by(Campaign.created_at.desc())
     if user.role == "advertiser":
@@ -53,8 +53,8 @@ async def list_campaigns(
 @router.get("/{campaign_id}", response_model=CampaignOut)
 async def get_campaign(
     campaign_id: str,
-    db: AsyncSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+    user: User = Depends(get_current_user),  # noqa: B008
 ):
     c = await db.get(Campaign, campaign_id)
     if c is None:
@@ -71,9 +71,9 @@ async def create_campaign(
     description: str = Form(""),
     url: str = Form(...),
     budget: int = Form(...),
-    media: UploadFile | None = File(None),
-    db: AsyncSession = Depends(get_db),
-    user: User = Depends(require_role("advertiser")),
+    media: UploadFile | None = File(None),  # noqa: B008
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+    user: User = Depends(require_role("advertiser")),  # noqa: B008
 ):
     media_url = None
     media_type = None
@@ -105,9 +105,9 @@ async def update_campaign(
     description: str = Form(""),
     url: str = Form(...),
     budget: int = Form(...),
-    media: UploadFile | None = File(None),
-    db: AsyncSession = Depends(get_db),
-    user: User = Depends(require_role("advertiser")),
+    media: UploadFile | None = File(None),  # noqa: B008
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+    user: User = Depends(require_role("advertiser")),  # noqa: B008
 ):
     c = await db.get(Campaign, campaign_id)
     if c is None or c.advertiser_id != user.id:
@@ -134,8 +134,8 @@ async def update_campaign(
 async def moderate_campaign(
     campaign_id: str,
     payload: ModerateRequest,
-    db: AsyncSession = Depends(get_db),
-    _: User = Depends(require_role("moderator")),
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+    _: User = Depends(require_role("moderator")),  # noqa: B008
 ):
     if payload.status not in ("approved", "rejected"):
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid status")

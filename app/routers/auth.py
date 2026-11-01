@@ -11,7 +11,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/login", response_model=LoginResponse)
-async def login(payload: LoginRequest, db: AsyncSession = Depends(get_db)):
+async def login(payload: LoginRequest, db: AsyncSession = Depends(get_db)):  # noqa: B008
     role = payload.role if payload.role in ("advertiser", "moderator") else "advertiser"
     # Демо-режим: первый пользователь с этой ролью, иначе создаём
     result = await db.execute(select(User).where(User.role == role).limit(1))
@@ -26,11 +26,11 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/logout")
-async def logout(_: User = Depends(get_current_user)) -> dict:
+async def logout(_: User = Depends(get_current_user)) -> dict:  # noqa: B008
     # JWT stateless; на клиенте просто удаляется токен
     return {"ok": True}
 
 
 @router.get("/me", response_model=UserOut)
-async def me(user: User = Depends(get_current_user)) -> UserOut:
+async def me(user: User = Depends(get_current_user)) -> UserOut:  # noqa: B008
     return UserOut.model_validate(user)

@@ -60,7 +60,9 @@ async def test_moderation_flow(client):
     assert r.status_code == 200
     assert r.json()["status"] == "approved"
 
-    r = await client.get("/api/campaigns", params={"status": "approved"}, headers={"Authorization": f"Bearer {mod}"})
+    r = await client.get(
+        "/api/campaigns", params={"status": "approved"}, headers={"Authorization": f"Bearer {mod}"}
+    )
     assert any(c["id"] == cid for c in r.json())
 
 

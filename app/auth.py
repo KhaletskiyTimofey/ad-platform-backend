@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
@@ -17,7 +16,7 @@ def create_token(user: User) -> str:
     payload = {
         "sub": user.id,
         "role": user.role,
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=settings.JWT_EXPIRE_MINUTES),
+        "exp": datetime.now(UTC) + timedelta(minutes=settings.JWT_EXPIRE_MINUTES),
     }
     return jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALG)
 
@@ -30,8 +29,8 @@ def decode_token(token: str) -> dict:
 
 
 async def get_current_user(
-    creds: HTTPAuthorizationCredentials | None = Depends(bearer),
-    db: AsyncSession = Depends(get_db),
+    creds: HTTPAuthorizationCredentials | None = Depends(bearer),  # noqa: B008
+    db: AsyncSession = Depends(get_db),  # noqa: B008
 ) -> User:
     if creds is None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Not authenticated")
@@ -43,7 +42,7 @@ async def get_current_user(
 
 
 def require_role(*roles: str):
-    async def checker(user: User = Depends(get_current_user)) -> User:
+    async def checker(user: User = Depends(get_current_user)) -> User:  # noqa: B008
         if user.role not in roles:
             raise HTTPException(status.HTTP_403_FORBIDDEN, "Forbidden")
         return user

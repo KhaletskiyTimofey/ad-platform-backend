@@ -12,8 +12,8 @@ router = APIRouter(prefix="/balance", tags=["balance"])
 @router.post("/topup", response_model=TopupResponse)
 async def topup(
     payload: TopupRequest,
-    db: AsyncSession = Depends(get_db),
-    user: User = Depends(require_role("advertiser")),
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+    user: User = Depends(require_role("advertiser")),  # noqa: B008
 ):
     if payload.amount <= 0:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Amount must be positive")

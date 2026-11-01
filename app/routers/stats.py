@@ -10,11 +10,17 @@ router = APIRouter(tags=["stats"])
 
 
 @router.get("/stats", response_model=StatsOut)
-async def stats(db: AsyncSession = Depends(get_db)):
+async def stats(db: AsyncSession = Depends(get_db)):  # noqa: B008
     total = await db.scalar(select(func.count(Campaign.id))) or 0
-    approved = await db.scalar(select(func.count(Campaign.id)).where(Campaign.status == "approved")) or 0
-    pending = await db.scalar(select(func.count(Campaign.id)).where(Campaign.status == "pending")) or 0
-    rejected = await db.scalar(select(func.count(Campaign.id)).where(Campaign.status == "rejected")) or 0
+    approved = (
+        await db.scalar(select(func.count(Campaign.id)).where(Campaign.status == "approved")) or 0
+    )
+    pending = (
+        await db.scalar(select(func.count(Campaign.id)).where(Campaign.status == "pending")) or 0
+    )
+    rejected = (
+        await db.scalar(select(func.count(Campaign.id)).where(Campaign.status == "rejected")) or 0
+    )
     impressions = await db.scalar(select(func.coalesce(func.sum(Campaign.impressions), 0))) or 0
     clicks = await db.scalar(select(func.coalesce(func.sum(Campaign.clicks), 0))) or 0
     spent = await db.scalar(select(func.coalesce(func.sum(Campaign.spent), 0))) or 0
@@ -33,8 +39,9 @@ async def stats(db: AsyncSession = Depends(get_db)):
 
 # --- Заготовка для скрипта встраивания (ТЗ, Блок 3.3) ---
 
+
 @router.get("/serve/{campaign_id}")
-async def serve(campaign_id: str, db: AsyncSession = Depends(get_db)):
+async def serve(campaign_id: str, db: AsyncSession = Depends(get_db)):  # noqa: B008
     c = await db.get(Campaign, campaign_id)
     if c is None or c.status != "approved":
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Not found")
@@ -49,7 +56,7 @@ async def serve(campaign_id: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/impression/{campaign_id}")
-async def impression(campaign_id: str, db: AsyncSession = Depends(get_db)):
+async def impression(campaign_id: str, db: AsyncSession = Depends(get_db)):  # noqa: B008
     c = await db.get(Campaign, campaign_id)
     if c is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Not found")
@@ -62,7 +69,7 @@ async def impression(campaign_id: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/click/{campaign_id}")
-async def click(campaign_id: str, db: AsyncSession = Depends(get_db)):
+async def click(campaign_id: str, db: AsyncSession = Depends(get_db)):  # noqa: B008
     c = await db.get(Campaign, campaign_id)
     if c is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Not found")
