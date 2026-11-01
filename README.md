@@ -1,6 +1,6 @@
 # AdPlatform Backend
 
-[![codecov](https://codecov.io/gh/<твой-username>/ad-platform-backend/branch/main/graph/badge.svg)](https://codecov.io/gh/KhaletskiyTimofey/ad-platform-backend)
+[![codecov](https://codecov.io/gh/KhaletskiyTimofey/ad-platform-backend/branch/main/graph/badge.svg)](https://codecov.io/gh/KhaletskiyTimofey/ad-platform-backend)
 
 FastAPI + PostgreSQL + MinIO. Запуск: `docker compose up --build`.
 
