@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Статусы кампаний */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-approved {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Анимация переключения страниц */
+.view {
+  display: none;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Заглушка изображения */
+.media-placeholder {
+  background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* input type=file кастомизация */
+input[type="file"]::file-selector-button {
+  @apply bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+/* Полоса прогресса баланса */
+.balance-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.balance-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Карточка модератора */
+.mod-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
