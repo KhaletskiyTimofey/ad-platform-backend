@@ -19,7 +19,6 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 
 async def init_db() -> None:
-    """Создаёт таблицы при старте (для хакатона достаточно; в проде — Alembic)."""
     from app import models  # noqa: F401
 
     async with engine.begin() as conn:

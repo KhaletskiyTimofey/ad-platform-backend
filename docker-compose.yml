@@ -27,13 +27,15 @@ services:
     ports: ["3000:3000"]
     environment:
       DATABASE_URL: postgresql+asyncpg://adplatform:adplatform@db:5432/adplatform
+      SESSION_SECRET: change-me
+      SESSION_TTL_DAYS: "7"
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
       MINIO_BUCKET: media
       MINIO_PUBLIC_URL: http://localhost:9000
-      JWT_SECRET: supersecret
-      CORS_ORIGINS: "*"
+      PUBLIC_BASE_URL: http://localhost:3000
+      CORS_ORIGINS: http://localhost:5173,http://localhost:4173
     depends_on:
       db:
         condition: service_healthy
